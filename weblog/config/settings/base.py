@@ -89,6 +89,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "weblog.users",
+    "weblog.posts",
+    "weblog.comments"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
