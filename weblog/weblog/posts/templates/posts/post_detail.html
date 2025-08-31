@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <p><em>Published on {{ post.created_at|date:"M d, Y" }}</em></p>
+
+  <div>
+    {{ post.content|linebreaks }}
+  </div>
+
+  {% if media_items %}
+    <div class="post-media">
+      {% for media in media_items %}
+        {% if media.media_type == "image" %}
+          <img src="{{ media.file.url }}" alt="{{ post.title }}" style="max-width:100%; margin-bottom:1em;">
+        {% elif media.media_type == "video" %}
+          <video controls style="max-width:100%; margin-bottom:1em;">
+            <source src="{{ media.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <p>
+    <a href="{% url 'posts:post_list' %}">← Back to all posts</a>
+  </p>
+{% endblock %}

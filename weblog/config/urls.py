@@ -18,6 +18,8 @@ urlpatterns = [
     # User management
     path("users/", include("weblog.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    path("posts/", include("posts.urls", namespace="posts")),
+
     # Your stuff: custom urls includes go here
     # ...
     # Media files
