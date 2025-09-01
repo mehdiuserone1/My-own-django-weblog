@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
-from .models import Post, PostMedia
+from .models import Post, PostMedia, Tag
 
 
 class PostListView(ListView):
@@ -25,4 +25,33 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # Add all media related to this post
         context['media_items'] = PostMedia.objects.filter(post=self.get_object())
+        return context
+    
+    class TaggedPostListView(ListView):
+        model = Post
+        template_name = "posts/post_list.html"
+        context_object_name = "posts"
+
+        def get_queryset(self):
+            self.tag = get_object_or_404(Tag, slug=self.kwargs["slug"])
+            return Post.objects.filter(tags=self.tag, published=True)
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context["tag"] = self.tag
+            return context
+        
+
+class TaggedPostListView(ListView):
+    model = Post
+    template_name = "posts/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs["slug"])
+        return Post.objects.filter(tags=self.tag, published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag"] = self.tag
         return context

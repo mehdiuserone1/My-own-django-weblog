@@ -2,6 +2,24 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
+
+
+
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+
+
 class Post(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -14,6 +32,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
+    tags = models.ManyToManyField(Tag, related_name="posts", blank=True)
+
 
     class Meta:
         ordering = ["-created_at"]
