@@ -7,7 +7,7 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", include("home.urls", namespace="home")),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -19,6 +19,7 @@ urlpatterns = [
     path("users/", include("weblog.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     path("posts/", include("posts.urls", namespace="posts")),
+    
 
     # Your stuff: custom urls includes go here
     # ...

@@ -55,3 +55,10 @@ class TaggedPostListView(ListView):
         context = super().get_context_data(**kwargs)
         context["tag"] = self.tag
         return context
+    
+
+class TagListView(ListView):
+    model = Tag
+    template_name = "posts/tag_list.html"
+    context_object_name = "tags"
+    queryset = Tag.objects.all().order_by("name") 
